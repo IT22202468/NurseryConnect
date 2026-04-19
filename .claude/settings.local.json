@@ -1,0 +1,7 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(xcodebuild -project NurseryConnect.xcodeproj -scheme NurseryConnect -destination 'id=605CB8FC-C853-4863-9DD9-2B9EC1C5B58D')"
+    ]
+  }
+}

@@ -1,0 +1,1399 @@
+╭─── Claude Code v2.1.87 ──────────────────────────────────────────────────────╮
+│                                                    │ Tips for getting        │
+│                Welcome back Cuddah!                │ started                 │
+│                                                    │ ✔ Run /init to create … │
+│                      ▗ ▗   ▖ ▖                     │ ─────────────────────── │
+│                                                    │ Recent activity         │
+│                        ▘▘ ▝▝                       │ No recent activity      │
+│  Sonnet 4.6 · Claude Pro · rpgroup498@gmail.com's  │                         │
+│  Organization                                      │                         │
+│             ~/Documents/NurseryConnect             │                         │
+╰──────────────────────────────────────────────────────────────────────────────╯
+
+✻ Conversation compacted (ctrl+o for history)
+
+  ⎿  Read NurseryConnect/Views/Diary/DiaryLogCard.swift (375 lines)
+  ⎿  Read NurseryConnect/Views/Diary/DiaryTimelineView.swift (163 lines)
+  ⎿  Read NurseryConnect/Views/Children/ChildProfileView.swift (215 lines)
+  ⎿  Read NurseryConnect/Views/Children/ChildListView.swift (289 lines)
+  ⎿  Read NurseryConnect/Views/SOS/SOSView.swift (128 lines)
+  ⎿  Plan file referenced (~/.claude/plans/dynamic-spinning-sutherland.md)
+  ⎿  Skills restored (init)
+
+  Read 2 files (ctrl+o to expand)
+  ⎿  Found 10 new diagnostic issues in 1 file (ctrl+o to expand)
+
+⏺ Update(NurseryConnect/Views/Incidents/IncidentListView.swift)
+  ⎿  Added 5 lines, removed 2 lines
+      11  
+      12      var body: some View {
+      13          ZStack {
+      14 -            Color.brandYellow.ignoresSafeArea()                
+      14 +            Color.appBackground.ignoresSafeArea()              
+      15  
+      16              VStack(alignment: .leading, spacing: 16) {
+      17                  // New incident button
+     ...
+      20                          .purpleButtonStyle()
+      21                  }
+      22                  .buttonStyle(.plain)
+      23 +                .pressEffect()                                 
+      24                  .padding(.horizontal, 16)
+      25                  .padding(.top, 8)
+      26 +                .slideUpOnAppear(delay: 0)                     
+      27  
+      28                  if incidents.isEmpty {
+      29                      emptyState
+      30                  } else {
+      31                      ScrollView {
+      32                          VStack(spacing: 12) {
+      31 -                            ForEach(incidents) { incident in   
+      33 +                            ForEach(Array(incidents.enumerated(
+         +)), id: \.element.id) { index, incident in                     
+      34                                  incidentCard(incident)
+      35 +                                    .slideUpOnAppear(delay: Dou
+         +ble(index) * 0.06)                                             
+      36                              }
+      37                          }
+      38                          .padding(.horizontal, 16)
+
+⏺ Update(NurseryConnect/Views/Incidents/IncidentListView.swift)
+  ⎿  Added 11 lines, removed 7 lines
+       84              if incident.sosActivated {
+       85                  HStack {
+       86                      Spacer()
+       87 -                    Text("🆘 SOS Used")                       
+       88 -                        .font(.system(size: 11, weight: .bold)
+          -)                                                             
+       89 -                        .foregroundStyle(.white)              
+       90 -                        .padding(.horizontal, 8)              
+       91 -                        .padding(.vertical, 4)                
+       92 -                        .background(Color.red)                
+       93 -                        .clipShape(Capsule())                 
+       87 +                    HStack(spacing: 4) {                      
+       88 +                        Image(systemName: "sos.circle.fill")  
+       89 +                            .font(.system(size: 11, weight: .b
+          +old))                                                         
+       90 +                        Text("SOS Used")                      
+       91 +                            .font(.system(size: 11, weight: .b
+          +old))                                                         
+       92 +                    }                                         
+       93 +                    .foregroundStyle(.white)                  
+       94 +                    .padding(.horizontal, 8)                  
+       95 +                    .padding(.vertical, 4)                    
+       96 +                    .background(Color.red)                    
+       97 +                    .clipShape(Capsule())                     
+       98                  }
+       99                  .padding(.horizontal, 16)
+      100                  .padding(.bottom, 12)
+  ⎿  Found 8 new diagnostic issues in 1 file (ctrl+o to expand)
+
+⏺ Now update IncidentFormView.swift:
+
+⏺ Update(NurseryConnect/Views/Incidents/IncidentFormView.swift)
+  ⎿  Added 1 line, removed 1 line
+      14  
+      15      var body: some View {
+      16          ZStack {
+      17 -            Color.brandYellow.ignoresSafeArea()                
+      17 +            Color.appBackground.ignoresSafeArea()              
+      18  
+      19              ScrollView {
+      20                  VStack(spacing: 24) {
+
+⏺ Update(NurseryConnect/Views/Incidents/IncidentFormView.swift)
+  ⎿  Added 4 lines
+      21                      progressIndicator
+      22                          .padding(.horizontal, 16)
+      23                          .padding(.top, 8)
+      24 +                        .slideUpOnAppear(delay: 0)             
+      25  
+      26                      detailsSection
+      27 +                        .slideUpOnAppear(delay: 0.05)          
+      28                      bodyMapSection
+      29 +                        .slideUpOnAppear(delay: 0.1)           
+      30                      reviewSection
+      31 +                        .slideUpOnAppear(delay: 0.15)          
+      32  
+      33                      Color.clear.frame(height: 100)
+      34                  }
+  ⎿  Found 10 new diagnostic issues in 1 file (ctrl+o to expand)
+
+⏺ Update(NurseryConnect/Views/Incidents/IncidentFormView.swift)
+  ⎿  Added 6 lines, removed 4 lines
+      169              if viewModel.category == .safeguardingConcern {
+      170                  HStack(spacing: 10) {
+      171                      Image(systemName: "exclamationmark.shield.
+           fill")
+      172 -                        .foregroundStyle(.black)              
+      172 +                        .font(.system(size: 20, weight: .semib
+          +old))                                                         
+      173 +                        .foregroundStyle(.red)                
+      174                      VStack(alignment: .leading, spacing: 4) {
+      174 -                        Text("⚠️ Safeguarding Concern")       
+      175 +                        Label("Safeguarding Concern", systemIm
+          +age: "exclamationmark.triangle.fill")                         
+      176                              .font(.system(size: 13, weight: .b
+           old))
+      177                              .foregroundStyle(.black)
+      178                          Text("Contact your Designated Safeguar
+           ding Lead immediately. Use the SOS button if the child is in i
+           mmediate danger.")
+     ...
+      181                      }
+      182                  }
+      183                  .padding(14)
+      183 -                .background(Color.brandPink.opacity(0.5))     
+      184 +                .background(Color.red.opacity(0.08))          
+      185                  .clipShape(RoundedRectangle(cornerRadius: 12))
+      185 -                .transition(.opacity.combined(with: .scale(sca
+          -le: 0.95)))                                                   
+      186 +                .overlay(RoundedRectangle(cornerRadius: 12).st
+          +roke(Color.red.opacity(0.25), lineWidth: 1))                  
+      187 +                .transition(.move(edge: .top).combined(with: .
+          +opacity))                                                     
+      188              }
+      189  
+      190              // Description
+  ⎿  Found 1 new diagnostic issue in 1 file (ctrl+o to expand)
+
+⏺ Update(NurseryConnect/Views/Incidents/IncidentFormView.swift)
+  ⎿  Added 1 line, removed 1 line
+      310              .padding(.bottom, 8)
+      311          }
+      312          .padding(.top, 8)
+      313 -        .background(Color.brandYellow)                        
+      313 +        .background(Color.appBackground)                      
+      314      }
+      315  
+      316      // MARK: - Helpers
+
+⏺ Now add pressEffect to the submit button:
+
+⏺ Update(NurseryConnect/Views/Incidents/IncidentFormView.swift)
+  ⎿  Added 2 lines, removed 1 line
+      303                      dismiss()
+      304                  }
+      305              } label: {
+      306 -                Text("Submit Report")                         
+      306 +                Label("Submit Report", systemImage: "checkmark
+          +.circle.fill")                                                
+      307                      .purpleButtonStyle()
+      308                      .padding(.horizontal, 16)
+      309              }
+      310 +            .pressEffect()                                    
+      311              .padding(.bottom, 8)
+      312          }
+      313          .padding(.top, 8)
+
+⏺ Also add animation to the validation error display in the submit bar:
+
+⏺ Update(NurseryConnect/Views/Incidents/IncidentFormView.swift)
+  ⎿  Added 11 lines, removed 5 lines
+      292      private var submitBar: some View {
+      293          VStack(spacing: 6) {
+      294              if let error = viewModel.validationError {
+      295 -                Text(error)                                   
+      296 -                    .font(.captionText)                       
+      297 -                    .foregroundStyle(.red)                    
+      298 -                    .multilineTextAlignment(.center)          
+      299 -                    .padding(.horizontal, 16)                 
+      295 +                HStack(spacing: 6) {                          
+      296 +                    Image(systemName: "exclamationmark.circle.
+          +fill")                                                        
+      297 +                        .font(.system(size: 13))              
+      298 +                        .foregroundStyle(.red)                
+      299 +                    Text(error)                               
+      300 +                        .font(.captionText)                   
+      301 +                        .foregroundStyle(.red)                
+      302 +                        .multilineTextAlignment(.center)      
+      303 +                }                                             
+      304 +                .padding(.horizontal, 16)                     
+      305 +                .transition(.move(edge: .bottom).combined(with
+          +: .opacity))                                                  
+      306              }
+      307              Button {
+      308                  if viewModel.submitReport(keyworkerId: SeedDat
+           a.keyworkerId, context: context) {
+
+⏺ Update(NurseryConnect/Views/Incidents/IncidentFormView.swift)
+  ⎿  Added 1 line
+      318          }
+      319          .padding(.top, 8)
+      320          .background(Color.appBackground)
+      321 +        .animation(.spring(response: 0.3, dampingFraction: 0.7
+          +), value: viewModel.validationError)                          
+      322      }
+      323  
+      324      // MARK: - Helpers
+
+⏺ Both files are now updated. Here's a summary of the changes made:
+
+  IncidentListView.swift
+  - Color.brandYellow → Color.appBackground
+  - "🆘 SOS Used" → Image(systemName: "sos.circle.fill") + "SOS Used" text in a
+  HStack
+  - Added pressEffect() to the New Incident button
+  - Added staggered slideUpOnAppear to incident cards
+
+  IncidentFormView.swift
+  - Both Color.brandYellow occurrences → Color.appBackground (main bg + submit
+  bar)
+  - "⚠️ Safeguarding Concern" → Label("Safeguarding Concern", systemImage: 
+  "exclamationmark.triangle.fill") with red styling instead of pink
+  - Added slideUpOnAppear to all three sections with staggered delays
+  - Submit button: text-only → Label("Submit Report", systemImage: 
+  "checkmark.circle.fill") + pressEffect()
+  - Validation error: plain text → icon+text HStack with move(edge: 
+  .bottom).combined(with: .opacity) transition + spring animation
+
+  The SourceKit errors shown are false positives from single-file analysis and
+  resolve at full compilation time.
+
+✻ Cooked for 9m 27s
+
+❯ in dashboard show babies as Horizontal Card Grid (Card Row). And then below   
+that keep the recent activity below that. remove search and babies name list at 
+ the bottom. And in baby's profile remove the view diary button and those log   
+details show in the 'Today/'s diary' of the baby's profile. also show the       
+'Contacts' button below the baby's details. When clicked on it show the baby's  
+contact list.                                                                   
+⏺ Let me read the current models to understand the data structure before making
+  changes.
+
+  Read 2 files (ctrl+o to expand)
+
+⏺ The Child model needs contacts support, which requires a schema update. Let me
+   plan all the changes needed, then implement them.
+
+  Read 1 file (ctrl+o to expand)
+
+⏺ Now I have everything I need. Let me implement all the changes:
+
+  Step 1 — Add ChildContact model and update Child
+
+⏺ Write(NurseryConnect/Models/ChildContact.swift)
+  ⎿  Wrote 9 lines to NurseryConnect/Models/ChildContact.swift
+      1 import Foundation
+      2 
+      3 struct ChildContact: Codable, Identifiable {
+      4     var id: UUID = UUID()
+      5     var name: String
+      6     var relationship: String
+      7     var phone: String
+      8     var email: String = ""
+      9 }
+
+⏺ Update(NurseryConnect/Models/Child.swift)
+  ⎿  Added 1 line
+      13      var allergens: [String]
+      14      var dietaryRequirements: [String]
+      15      var medicalNotes: String
+      16 +    var contactsData: Data                                     
+      17  
+      18      init(
+      19          id: UUID = UUID(),
+
+⏺ Update(NurseryConnect/Models/Child.swift)
+  ⎿  Added 2 lines, removed 1 line
+      25          photoConsent: Bool = true,
+      26          allergens: [String] = [],
+      27          dietaryRequirements: [String] = [],
+      28 -        medicalNotes: String = ""                              
+      28 +        medicalNotes: String = "",                             
+      29 +        contacts: [ChildContact] = []                          
+      30      ) {
+      31          self.id = id
+      32          self.fullName = fullName
+  ⎿  Found 1 new diagnostic issue in 1 file (ctrl+o to expand)
+
+⏺ Update(NurseryConnect/Models/Child.swift)
+  ⎿  Added 1 line
+      38          self.allergens = allergens
+      39          self.dietaryRequirements = dietaryRequirements
+      40          self.medicalNotes = medicalNotes
+      41 +        self.contactsData = (try? JSONEncoder().encode(contacts
+         +)) ?? Data()                                                   
+      42      }
+      43  
+      44      // MARK: - Computed Properties
+
+⏺ Now add the computed property for contacts:
+
+⏺ Update(NurseryConnect/Models/Child.swift)
+  ⎿  Added 5 lines
+      43  
+      44      // MARK: - Computed Properties
+      45  
+      46 +    var contacts: [ChildContact] {                             
+      47 +        get { (try? JSONDecoder().decode([ChildContact].self, f
+         +rom: contactsData)) ?? [] }                                    
+      48 +        set { contactsData = (try? JSONEncoder().encode(newValu
+         +e)) ?? Data() }                                                
+      49 +    }                                                          
+      50 +                                                               
+      51      var initials: String {
+      52          fullName
+      53              .split(separator: " ")
+
+⏺ Step 2 — Add contacts to seed data
+
+⏺ Update(NurseryConnect/App/SeedData.swift)
+  ⎿  Added 5 lines, removed 1 line
+      32              roomName: "Room Sunflower",
+      33              keyworkerUUID: keyworkerId,
+      34              photoConsent: true,
+      35 -            allergens: ["Milk", "Eggs"]                        
+      35 +            allergens: ["Milk", "Eggs"],                       
+      36 +            contacts: [                                        
+      37 +                ChildContact(name: "Laura Johnson", relationshi
+         +p: "Mother", phone: "07712 345678", email: "laura.johnson@email
+         +.com"),                                                        
+      38 +                ChildContact(name: "Tom Johnson", relationship:
+         + "Father", phone: "07798 654321", email: "tom.johnson@email.com
+         +")                                                             
+      39 +            ]                                                  
+      40          )
+      41          context.insert(emma)
+      42  
+
+⏺ Update(NurseryConnect/App/SeedData.swift)
+  ⎿  Added 4 lines, removed 1 line
+      49              roomName: "Room Sunflower",
+      50              keyworkerUUID: keyworkerId,
+      51              photoConsent: false,
+      52 -            allergens: ["Nuts"]                                
+      52 +            allergens: ["Nuts"],                               
+      53 +            contacts: [                                        
+      54 +                ChildContact(name: "Rachel Smith", relationship
+         +: "Mother", phone: "07834 111222", email: "rachel.smith@email.c
+         +om")                                                           
+      55 +            ]                                                  
+      56          )
+      57          context.insert(oliver)
+      58  
+  ⎿  Found 10 new diagnostic issues in 1 file (ctrl+o to expand)
+
+⏺ Update(NurseryConnect/App/SeedData.swift)
+  ⎿  Added 5 lines, removed 1 line
+      63              roomName: "Room Sunflower",
+      64              keyworkerUUID: keyworkerId,
+      65              photoConsent: true,
+      66 -            allergens: []                                      
+      66 +            allergens: [],                                     
+      67 +            contacts: [                                        
+      68 +                ChildContact(name: "Wei Chen", relationship: "F
+         +ather", phone: "07901 223344", email: "wei.chen@email.com"),   
+      69 +                ChildContact(name: "Mei Chen", relationship: "M
+         +other", phone: "07901 556677")                                 
+      70 +            ]                                                  
+      71          )
+      72          context.insert(lily)
+      73  
+  ⎿  Found 4 new diagnostic issues in 1 file (ctrl+o to expand)
+
+⏺ All false positives. Now rewrite ChildListView.swift with the grid layout:
+
+  Step 3 — Rewrite ChildListView
+
+⏺ Write(NurseryConnect/Views/Children/ChildListView.swift)
+  ⎿  Added 68 lines, removed 122 lines
+       6      @Query private var allEntries: [DiaryEntry]
+       7      @Query private var allIncidents: [IncidentReport]
+       8  
+       9 -    @State private var viewModel = ChildListViewModel()        
+       9      @State private var appeared = false
+      10  
+      11      private var children: [Child] {
+     ...
+      36              ScrollView {
+      37                  VStack(alignment: .leading, spacing: 20) {
+      38                      dashboardHeader
+      40 -                    searchBar                                  
+      41 -                    childList                                  
+      39                  }
+      40                  .padding(.horizontal, 16)
+      41                  .padding(.bottom, 120)
+     ...
+       86  
+       87              // Stat pills
+       88              HStack(spacing: 10) {
+       92 -                statPill(value: "\(todayEntries.count)", label
+          -: "Logs Today", icon: "checkmark.circle.fill", color: .green) 
+       89 +                statPill(value: "\(todayEntries.count)", label
+          +: "Logs Today",      icon: "checkmark.circle.fill", color: .gr
+          +een)                                                          
+       90                  statPill(value: "\(openIncidents.count)", labe
+           l: "Open Incidents", icon: "exclamationmark.shield.fill", colo
+           r: .orange)
+       91                  statPill(value: "\(childrenWithAllergens)", la
+           bel: "Allergen Alerts", icon: "exclamationmark.circle.fill", c
+           olor: .red)
+       92              }
+       93              .slideUpOnAppear(delay: 0.1)
+       94  
+       98 -            // Avatar scroll                                  
+       95 +            // Children grid                                  
+       96              if !children.isEmpty {
+       97                  Text("My Children")
+       98                      .font(.cardTitle)
+       99                      .foregroundStyle(.black)
+      100                      .slideUpOnAppear(delay: 0.15)
+      101  
+      105 -                ScrollView(.horizontal, showsIndicators: false
+          -) {                                                           
+      106 -                    HStack(spacing: 10) {                     
+      107 -                        ForEach(Array(children.enumerated()), 
+          -id: \.element.id) { index, child in                           
+      108 -                            NavigationLink(destination: ChildP
+          -rofileView(child: child)) {                                   
+      109 -                                avatarCard(child: child)      
+      110 -                            }                                 
+      111 -                            .buttonStyle(.plain)              
+      112 -                            .slideUpOnAppear(delay: 0.18 + Dou
+          -ble(index) * 0.06)                                            
+      102 +                LazyVGrid(                                    
+      103 +                    columns: [GridItem(.flexible(), spacing: 1
+          +2), GridItem(.flexible(), spacing: 12)],                      
+      104 +                    spacing: 12                               
+      105 +                ) {                                           
+      106 +                    ForEach(Array(children.enumerated()), id: 
+          +\.element.id) { index, child in                               
+      107 +                        NavigationLink(destination: ChildProfi
+          +leView(child: child)) {                                       
+      108 +                            childGridCard(child: child)       
+      109                          }
+      110 +                        .buttonStyle(.plain)                  
+      111 +                        .slideUpOnAppear(delay: 0.18 + Double(
+          +index) * 0.06)                                                
+      112                      }
+      115 -                    .padding(.vertical, 4)                    
+      113                  }
+      114              }
+      115  
+     ...
+      128          }
+      129      }
+      130  
+      131 +    // MARK: - Child Grid Card                                
+      132 +                                                              
+      133 +    private func childGridCard(child: Child) -> some View {   
+      134 +        VStack(spacing: 10) {                                 
+      135 +            ZStack {                                          
+      136 +                Circle()                                      
+      137 +                    .fill(Color.brandPurple.opacity(0.12))    
+      138 +                    .frame(width: 56, height: 56)             
+      139 +                Circle()                                      
+      140 +                    .stroke(Color.brandPurple.opacity(0.2), li
+          +neWidth: 1.5)                                                 
+      141 +                    .frame(width: 56, height: 56)             
+      142 +                Text(child.initials)                          
+      143 +                    .font(.system(size: 18, weight: .bold, des
+          +ign: .rounded))                                               
+      144 +                    .foregroundStyle(Color.brandPurple)       
+      145 +            }                                                 
+      146 +                                                              
+      147 +            VStack(spacing: 2) {                              
+      148 +                Text(child.preferredName)                     
+      149 +                    .font(.cardTitle)                         
+      150 +                    .foregroundStyle(.black)                  
+      151 +                    .lineLimit(1)                             
+      152 +                Text(child.roomName)                          
+      153 +                    .font(.captionText)                       
+      154 +                    .foregroundStyle(.gray)                   
+      155 +                    .lineLimit(1)                             
+      156 +            }                                                 
+      157 +                                                              
+      158 +            if !child.allergens.isEmpty {                     
+      159 +                HStack(spacing: 4) {                          
+      160 +                    Image(systemName: "exclamationmark.circle.
+          +fill")                                                        
+      161 +                        .font(.system(size: 10))              
+      162 +                        .foregroundStyle(.orange)             
+      163 +                    Text("\(child.allergens.count) allergen\(c
+          +hild.allergens.count == 1 ? "" : "s")")                       
+      164 +                        .font(.system(size: 10, weight: .semib
+          +old))                                                         
+      165 +                        .foregroundStyle(.orange)             
+      166 +                }                                             
+      167 +            }                                                 
+      168 +                                                              
+      169 +            if !child.photoConsent {                          
+      170 +                Label("No Photo", systemImage: "camera.slash.f
+          +ill")                                                         
+      171 +                    .font(.system(size: 10, weight: .semibold)
+          +)                                                             
+      172 +                    .foregroundStyle(.white)                  
+      173 +                    .padding(.horizontal, 8)                  
+      174 +                    .padding(.vertical, 4)                    
+      175 +                    .background(Color.red)                    
+      176 +                    .clipShape(Capsule())                     
+      177 +            }                                                 
+      178 +        }                                                     
+      179 +        .frame(maxWidth: .infinity)                           
+      180 +        .padding(.vertical, 16)                               
+      181 +        .padding(.horizontal, 10)                             
+      182 +        .cardStyle()                                          
+      183 +    }                                                         
+      184 +                                                              
+      185 +    // MARK: - Stat Pill                                      
+      186 +                                                              
+      187      private func statPill(value: String, label: String, icon: 
+           String, color: Color) -> some View {
+      188          VStack(spacing: 4) {
+      189              Image(systemName: icon)
+     ...
+      202          .cardStyle()
+      203      }
+      204  
+      152 -    private func avatarCard(child: Child) -> some View {      
+      153 -        VStack(spacing: 6) {                                  
+      154 -            ZStack {                                          
+      155 -                Circle()                                      
+      156 -                    .fill(Color.brandPurple.opacity(0.12))    
+      157 -                    .frame(width: 50, height: 50)             
+      158 -                Text(child.initials)                          
+      159 -                    .font(.system(size: 16, weight: .bold, des
+          -ign: .rounded))                                               
+      160 -                    .foregroundStyle(Color.brandPurple)       
+      161 -            }                                                 
+      162 -            Text(child.preferredName)                         
+      163 -                .font(.captionText)                           
+      164 -                .foregroundStyle(.black)                      
+      165 -                .lineLimit(1)                                 
+      166 -            if !child.allergens.isEmpty {                     
+      167 -                Image(systemName: "exclamationmark.circle.fill
+          -")                                                            
+      168 -                    .font(.system(size: 10))                  
+      169 -                    .foregroundStyle(.orange)                 
+      170 -            }                                                 
+      171 -        }                                                     
+      172 -        .padding(12)                                          
+      173 -        .cardStyle()                                          
+      174 -    }                                                         
+      205 +    // MARK: - Recent Entry Card                              
+      206  
+      207      private func recentEntryCard(entry: DiaryEntry) -> some Vi
+           ew {
+      208          HStack(spacing: 0) {
+     ...
+      231          }
+      232          .cardStyle()
+      233      }
+      203 -                                                              
+      204 -    // MARK: - Search                                         
+      205 -                                                              
+      206 -    private var searchBar: some View {                        
+      207 -        HStack(spacing: 10) {                                 
+      208 -            Image(systemName: "magnifyingglass")              
+      209 -                .foregroundStyle(Color.gray.opacity(0.5))     
+      210 -            TextField("Search children...", text: $viewModel.s
+          -earchQuery)                                                   
+      211 -                .font(.bodyText)                              
+      212 -            if !viewModel.searchQuery.isEmpty {               
+      213 -                Button { viewModel.searchQuery = "" } label: {
+      214 -                    Image(systemName: "xmark.circle.fill")    
+      215 -                        .foregroundStyle(.gray)               
+      216 -                }                                             
+      217 -            }                                                 
+      218 -        }                                                     
+      219 -        .padding(12)                                          
+      220 -        .background(Color.white)                              
+      221 -        .clipShape(RoundedRectangle(cornerRadius: 12))        
+      222 -        .overlay(RoundedRectangle(cornerRadius: 12).stroke(Col
+          -or.gray.opacity(0.12), lineWidth: 1))                         
+      223 -        .animation(.easeInOut(duration: 0.2), value: viewModel
+          -.searchQuery.isEmpty)                                         
+      224 -    }                                                         
+      225 -                                                              
+      226 -    // MARK: - Child List                                     
+      227 -                                                              
+      228 -    private var childList: some View {                        
+      229 -        VStack(spacing: 10) {                                 
+      230 -            ForEach(Array(viewModel.filtered(children).enumera
+          -ted()), id: \.element.id) { index, child in                   
+      231 -                NavigationLink(destination: ChildProfileView(c
+          -hild: child)) {                                               
+      232 -                    childCard(child: child)                   
+      233 -                }                                             
+      234 -                .buttonStyle(.plain)                          
+      235 -                .slideUpOnAppear(delay: 0.1 + Double(index) * 
+          -0.07)                                                         
+      236 -            }                                                 
+      237 -        }                                                     
+      238 -    }                                                         
+      239 -                                                              
+      240 -    private func childCard(child: Child) -> some View {       
+      241 -        VStack(spacing: 0) {                                  
+      242 -            HStack(spacing: 14) {                             
+      243 -                ZStack {                                      
+      244 -                    Circle()                                  
+      245 -                        .fill(Color.brandPurple.opacity(0.12))
+      246 -                        .frame(width: 46, height: 46)         
+      247 -                    Text(child.initials)                      
+      248 -                        .font(.system(size: 15, weight: .bold,
+          - design: .rounded))                                           
+      249 -                        .foregroundStyle(Color.brandPurple)   
+      250 -                }                                             
+      251 -                                                              
+      252 -                VStack(alignment: .leading, spacing: 3) {     
+      253 -                    Text(child.fullName)                      
+      254 -                        .font(.cardTitle)                     
+      255 -                        .foregroundStyle(.black)              
+      256 -                    Text(child.roomName)                      
+      257 -                        .font(.captionText)                   
+      258 -                        .foregroundStyle(.gray)               
+      259 -                }                                             
+      260 -                                                              
+      261 -                Spacer()                                      
+      262 -                                                              
+      263 -                if !child.allergens.isEmpty {                 
+      264 -                    HStack(spacing: 3) {                      
+      265 -                        Image(systemName: "exclamationmark.cir
+          -cle.fill")                                                    
+      266 -                            .font(.system(size: 12))          
+      267 -                            .foregroundStyle(.orange)         
+      268 -                        Text("\(child.allergens.count)")      
+      269 -                            .font(.system(size: 12, weight: .b
+          -old))                                                         
+      270 -                            .foregroundStyle(.orange)         
+      271 -                    }                                         
+      272 -                }                                             
+      273 -                                                              
+      274 -                Image(systemName: "chevron.right")            
+      275 -                    .foregroundStyle(Color.gray.opacity(0.4)) 
+      276 -                    .font(.system(size: 12, weight: .semibold)
+          -)                                                             
+      277 -            }                                                 
+      278 -            .padding(16)                                      
+      279 -                                                              
+      280 -            if !child.photoConsent {                          
+      281 -                ConsentBannerView()                           
+      282 -                    .padding(.horizontal, 12)                 
+      283 -                    .padding(.bottom, 12)                     
+      284 -            }                                                 
+      285 -        }                                                     
+      286 -        .cardStyle()                                          
+      287 -    }                                                         
+      234  }
+
+⏺ Step 4 — Rewrite ChildProfileView with diary entries inline and Contacts
+  sheet:
+
+⏺ Write(NurseryConnect/Views/Children/ChildProfileView.swift)
+  ⎿  Added 209 lines, removed 17 lines
+       6      let child: Child
+       7  
+       8      @Query private var allEntries: [DiaryEntry]
+       9 +    @State private var showContacts = false                    
+      10  
+      11      private var todayEntries: [DiaryEntry] {
+      12          let start = Calendar.current.startOfDay(for: .now)
+      12 -        return allEntries.filter { $0.childId == child.id && $0
+         -.timestamp >= start }                                          
+      13 +        return allEntries                                      
+      14 +            .filter { $0.childId == child.id && $0.timestamp >=
+         + start }                                                       
+      15 +            .sorted { $0.timestamp < $1.timestamp }            
+      16      }
+      17  
+      18      private var entryTypeCounts: [(EntryType, Int)] {
+     ...
+      80  
+      81                      // Today's Diary card
+      82                      VStack(alignment: .leading, spacing: 12) {
+      80 -                        Label("Today's Diary", systemImage: "bo
+         -ok.fill")                                                      
+      81 -                            .font(.cardTitle)                  
+      82 -                            .foregroundStyle(.black)           
+      83 +                        HStack {                               
+      84 +                            Label("Today's Diary", systemImage:
+         + "book.fill")                                                  
+      85 +                                .font(.cardTitle)              
+      86 +                                .foregroundStyle(.black)       
+      87 +                            Spacer()                           
+      88 +                            Text("\(todayEntries.count) entr\(t
+         +odayEntries.count == 1 ? "y" : "ies")")                        
+      89 +                                .font(.captionText)            
+      90 +                                .foregroundStyle(.gray)        
+      91 +                        }                                      
+      92  
+      84 -                        Text("\(todayEntries.count) entr\(today
+         -Entries.count == 1 ? "y" : "ies") logged today")               
+      85 -                            .font(.bodyText)                   
+      86 -                            .foregroundStyle(.gray)            
+      87 -                                                               
+      93                          if !entryTypeCounts.isEmpty {
+      94                              Chart(entryTypeCounts, id: \.0) { t
+          ype, count in
+      95                                  SectorMark(
+     ...
+      100                                  .foregroundStyle(type.color)
+      101                              }
+      102                              .chartLegend(.hidden)
+       98 -                            .frame(height: 130)               
+       99 -                        } else {                              
+      103 +                            .frame(height: 100)               
+      104 +                        }                                     
+      105 +                                                              
+      106 +                        if todayEntries.isEmpty {             
+      107                              HStack(spacing: 6) {
+      108                                  Image(systemName: "moon.zzz.fi
+           ll")
+      109                                      .foregroundStyle(.gray.opa
+           city(0.4))
+     ...
+      112                                      .foregroundStyle(.gray)
+      113                              }
+      114                              .frame(maxWidth: .infinity, alignm
+           ent: .center)
+      108 -                            .padding(.vertical, 20)           
+      115 +                            .padding(.vertical, 12)           
+      116 +                        } else {                              
+      117 +                            VStack(spacing: 8) {              
+      118 +                                ForEach(todayEntries) { entry 
+          +in                                                            
+      119 +                                    diaryEntryRow(entry: entry
+          +)                                                             
+      120 +                                }                             
+      121 +                            }                                 
+      122                          }
+      123                      }
+      124                      .padding(16)
+     ...
+      128  
+      129                      // Action buttons
+      130                      VStack(spacing: 10) {
+      118 -                        NavigationLink(destination: DiaryTimel
+          -ineView(child: child, startWithLogCard: false)) {             
+      119 -                            Label("View Diary", systemImage: "
+          -book.pages")                                                  
+      131 +                        NavigationLink(destination: DiaryTimel
+          +ineView(child: child, startWithLogCard: true)) {              
+      132 +                            Label("Add Log Entry", systemImage
+          +: "plus.circle.fill")                                         
+      133                                  .purpleButtonStyle()
+      134                          }
+      135                          .buttonStyle(.plain)
+      136                          .pressEffect()
+      137  
+      125 -                        NavigationLink(destination: DiaryTimel
+          -ineView(child: child, startWithLogCard: true)) {              
+      126 -                            Label("Add Log Entry", systemImage
+          -: "plus.circle.fill")                                         
+      127 -                                .purpleButtonStyle()          
+      138 +                        Button {                              
+      139 +                            withAnimation(.spring(response: 0.
+          +4, dampingFraction: 0.75)) {                                  
+      140 +                                showContacts = true           
+      141 +                            }                                 
+      142 +                        } label: {                            
+      143 +                            Label("Contacts", systemImage: "pe
+          +rson.2.fill")                                                 
+      144 +                                .font(.system(size: 16, weight
+          +: .semibold))                                                 
+      145 +                                .foregroundStyle(Color.brandPu
+          +rple)                                                         
+      146 +                                .frame(maxWidth: .infinity)   
+      147 +                                .padding(.vertical, 16)       
+      148 +                                .background(Color.brandPurple.
+          +opacity(0.08))                                                
+      149 +                                .clipShape(RoundedRectangle(co
+          +rnerRadius: 14))                                              
+      150 +                                .overlay(RoundedRectangle(corn
+          +erRadius: 14).stroke(Color.brandPurple.opacity(0.25), lineWidt
+          +h: 1))                                                        
+      151                          }
+      129 -                        .buttonStyle(.plain)                  
+      152                          .pressEffect()
+      153                      }
+      154                      .padding(.horizontal, 16)
+     ...
+      158              }
+      159          }
+      160          .navigationBarTitleDisplayMode(.inline)
+      161 +        .sheet(isPresented: $showContacts) {                  
+      162 +            ContactsSheet(child: child)                       
+      163 +        }                                                     
+      164      }
+      165  
+      166 +    // MARK: - Diary Entry Row                                
+      167 +                                                              
+      168 +    private func diaryEntryRow(entry: DiaryEntry) -> some View
+          + {                                                            
+      169 +        HStack(spacing: 10) {                                 
+      170 +            ZStack {                                          
+      171 +                Circle()                                      
+      172 +                    .fill(entry.entryType.color.opacity(0.12))
+      173 +                    .frame(width: 32, height: 32)             
+      174 +                Image(systemName: entry.entryType.sfSymbol)   
+      175 +                    .font(.system(size: 13, weight: .semibold)
+          +)                                                             
+      176 +                    .foregroundStyle(entry.entryType.color)   
+      177 +            }                                                 
+      178 +                                                              
+      179 +            Text(entry.summaryText)                           
+      180 +                .font(.bodyText)                              
+      181 +                .foregroundStyle(.black)                      
+      182 +                .lineLimit(2)                                 
+      183 +                                                              
+      184 +            Spacer()                                          
+      185 +                                                              
+      186 +            Text(entry.timestamp, style: .time)               
+      187 +                .font(.captionText)                           
+      188 +                .foregroundStyle(.gray)                       
+      189 +        }                                                     
+      190 +        .padding(10)                                          
+      191 +        .background(Color.appBackground)                      
+      192 +        .clipShape(RoundedRectangle(cornerRadius: 10))        
+      193 +    }                                                         
+      194 +                                                              
+      195 +    // MARK: - Avatar Header                                  
+      196 +                                                              
+      197      private var avatarHeader: some View {
+      198          VStack(spacing: 10) {
+      199              ZStack {
+     ...
+      223      }
+      224  }
+      225  
+      226 +// MARK: - Contacts Sheet                                     
+      227 +                                                              
+      228 +private struct ContactsSheet: View {                          
+      229 +    let child: Child                                          
+      230 +    @Environment(\.dismiss) private var dismiss               
+      231 +                                                              
+      232 +    var body: some View {                                     
+      233 +        NavigationStack {                                     
+      234 +            ZStack {                                          
+      235 +                Color.appBackground.ignoresSafeArea()         
+      236 +                                                              
+      237 +                if child.contacts.isEmpty {                   
+      238 +                    VStack(spacing: 12) {                     
+      239 +                        Image(systemName: "person.2.slash")   
+      240 +                            .font(.system(size: 48))          
+      241 +                            .foregroundStyle(.gray.opacity(0.3
+          +5))                                                           
+      242 +                        Text("No contacts on file")           
+      243 +                            .font(.bodyText)                  
+      244 +                            .foregroundStyle(.gray)           
+      245 +                    }                                         
+      246 +                    .frame(maxWidth: .infinity, maxHeight: .in
+          +finity)                                                       
+      247 +                } else {                                      
+      248 +                    ScrollView {                              
+      249 +                        VStack(spacing: 12) {                 
+      250 +                            ForEach(Array(child.contacts.enume
+          +rated()), id: \.element.id) { index, contact in               
+      251 +                                contactCard(contact)          
+      252 +                                    .slideUpOnAppear(delay: Do
+          +uble(index) * 0.06)                                           
+      253 +                            }                                 
+      254 +                        }                                     
+      255 +                        .padding(16)                          
+      256 +                        .padding(.bottom, 40)                 
+      257 +                    }                                         
+      258 +                }                                             
+      259 +            }                                                 
+      260 +            .navigationTitle("\(child.preferredName)'s Contact
+          +s")                                                           
+      261 +            .navigationBarTitleDisplayMode(.inline)           
+      262 +            .toolbar {                                        
+      263 +                ToolbarItem(placement: .topBarTrailing) {     
+      264 +                    Button {                                  
+      265 +                        dismiss()                             
+      266 +                    } label: {                                
+      267 +                        Image(systemName: "xmark.circle.fill")
+      268 +                            .font(.title2)                    
+      269 +                            .foregroundStyle(Color.gray.opacit
+          +y(0.5))                                                       
+      270 +                    }                                         
+      271 +                }                                             
+      272 +            }                                                 
+      273 +        }                                                     
+      274 +    }                                                         
+      275 +                                                              
+      276 +    private func contactCard(_ contact: ChildContact) -> some 
+          +View {                                                        
+      277 +        VStack(spacing: 0) {                                  
+      278 +            HStack(spacing: 14) {                             
+      279 +                ZStack {                                      
+      280 +                    Circle()                                  
+      281 +                        .fill(Color.brandPurple.opacity(0.1)) 
+      282 +                        .frame(width: 48, height: 48)         
+      283 +                    Image(systemName: "person.fill")          
+      284 +                        .font(.system(size: 18, weight: .semib
+          +old))                                                         
+      285 +                        .foregroundStyle(Color.brandPurple)   
+      286 +                }                                             
+      287 +                                                              
+      288 +                VStack(alignment: .leading, spacing: 3) {     
+      289 +                    Text(contact.name)                        
+      290 +                        .font(.cardTitle)                     
+      291 +                        .foregroundStyle(.black)              
+      292 +                    Text(contact.relationship)                
+      293 +                        .font(.captionText)                   
+      294 +                        .foregroundStyle(Color.brandPurple)   
+      295 +                }                                             
+      296 +                                                              
+      297 +                Spacer()                                      
+      298 +            }                                                 
+      299 +            .padding(16)                                      
+      300 +                                                              
+      301 +            Divider()                                         
+      302 +                .padding(.horizontal, 16)                     
+      303 +                                                              
+      304 +            VStack(spacing: 0) {                              
+      305 +                if !contact.phone.isEmpty {                   
+      306 +                    contactRow(                               
+      307 +                        icon: "phone.fill",                   
+      308 +                        color: .green,                        
+      309 +                        value: contact.phone,                 
+      310 +                        action: { openPhone(contact.phone) }  
+      311 +                    )                                         
+      312 +                }                                             
+      313 +                if !contact.email.isEmpty {                   
+      314 +                    contactRow(                               
+      315 +                        icon: "envelope.fill",                
+      316 +                        color: Color.brandPurple,             
+      317 +                        value: contact.email,                 
+      318 +                        action: { openEmail(contact.email) }  
+      319 +                    )                                         
+      320 +                }                                             
+      321 +            }                                                 
+      322 +            .padding(.bottom, 4)                              
+      323 +        }                                                     
+      324 +        .cardStyle()                                          
+      325 +    }                                                         
+      326 +                                                              
+      327 +    private func contactRow(icon: String, color: Color, value:
+          + String, action: @escaping () -> Void) -> some View {         
+      328 +        Button(action: action) {                              
+      329 +            HStack(spacing: 12) {                             
+      330 +                Image(systemName: icon)                       
+      331 +                    .font(.system(size: 14, weight: .semibold)
+          +)                                                             
+      332 +                    .foregroundStyle(color)                   
+      333 +                    .frame(width: 28)                         
+      334 +                Text(value)                                   
+      335 +                    .font(.bodyText)                          
+      336 +                    .foregroundStyle(.black)                  
+      337 +                Spacer()                                      
+      338 +                Image(systemName: "chevron.right")            
+      339 +                    .font(.system(size: 11, weight: .semibold)
+          +)                                                             
+      340 +                    .foregroundStyle(.gray.opacity(0.4))      
+      341 +            }                                                 
+      342 +            .padding(.horizontal, 16)                         
+      343 +            .padding(.vertical, 12)                           
+      344 +        }                                                     
+      345 +        .pressEffect()                                        
+      346 +    }                                                         
+      347 +                                                              
+      348 +    private func openPhone(_ number: String) {                
+      349 +        let cleaned = number.replacingOccurrences(of: " ", wit
+          +h: "")                                                        
+      350 +        if let url = URL(string: "tel://\(cleaned)") {        
+      351 +            UIApplication.shared.open(url)                    
+      352 +        }                                                     
+      353 +    }                                                         
+      354 +                                                              
+      355 +    private func openEmail(_ email: String) {                 
+      356 +        if let url = URL(string: "mailto:\(email)") {         
+      357 +            UIApplication.shared.open(url)                    
+      358 +        }                                                     
+      359 +    }                                                         
+      360 +}                                                             
+      361 +                                                              
+      362  // MARK: - Flow Layout
+      363  
+      364  struct FlowLayout: Layout {
+  ⎿  Found 10 new diagnostic issues in 1 file (ctrl+o to expand)
+
+⏺ All SourceKit false positives — they resolve at full compilation. The schema
+  change requires deleting the app from the simulator first since contactsData
+  was added to Child.
+
+  Here's a summary of everything changed:
+
+  Models/ChildContact.swift (new file)
+  - Codable, Identifiable struct with name, relationship, phone, email
+
+  Models/Child.swift
+  - Added contactsData: Data stored property
+  - Added contacts: [ChildContact] computed get/set that encodes/decodes JSON
+  - Init accepts contacts: [ChildContact] = []
+
+  App/SeedData.swift
+  - Emma: 2 contacts (mother + father)
+  - Oliver: 1 contact (mother)
+  - Lily: 2 contacts (father + mother)
+
+  Views/Children/ChildListView.swift (rewritten)
+  - Removed search bar and child list at bottom
+  - Children now shown as a 2-column LazyVGrid with cards showing avatar, name,
+  room, allergen count, no-photo badge
+  - Recent activity section kept below the grid
+
+  Views/Children/ChildProfileView.swift (rewritten)
+  - "View Diary" button removed; only "Add Log Entry" remains
+  - Today's Diary card now shows the actual diary entry rows inline (icon +
+  summary text + time) plus the ring chart
+  - "Contacts" button added below actions — tapping shows a ContactsSheet as a
+  .sheet
+  - ContactsSheet: lists each contact as a card with name/relationship, tappable
+   phone row (opens Phone app) and email row (opens Mail app)
+
+  ▎ Important: Delete the app from the simulator before running — the Child 
+  model schema changed with the new contactsData field.
+
+✻ Cogitated for 2m 27s
+
+❯ add necessary validations to the forms. Can't submit them empty               
+  ⎿  Found 10 new diagnostic issues in 1 file (ctrl+o to expand)
+  Read 4 files (ctrl+o to expand)
+
+⏺ Now I have a complete picture. I'll update all three ViewModels with thorough
+  field-by-field validation.
+
+⏺ Update(NurseryConnect/ViewModels/AuthViewModel.swift)
+  ⎿  Added 30 lines, removed 4 lines
+      13      private let validPassword = "Stars2024!"
+      14  
+      15      func signIn(completion: () -> Void) {
+      16 -        if email == validEmail && password == validPassword {  
+      16 +        let trimmedEmail = email.trimmingCharacters(in: .whites
+         +paces)                                                         
+      17 +                                                               
+      18 +        if trimmedEmail.isEmpty && password.isEmpty {          
+      19 +            errorMessage = "Please enter your email and passwor
+         +d."                                                            
+      20 +            showErrorAnimated()                                
+      21 +            return                                             
+      22 +        }                                                      
+      23 +        if trimmedEmail.isEmpty {                              
+      24 +            errorMessage = "Please enter your email address."  
+      25 +            showErrorAnimated()                                
+      26 +            return                                             
+      27 +        }                                                      
+      28 +        if password.isEmpty {                                  
+      29 +            errorMessage = "Please enter your password."       
+      30 +            showErrorAnimated()                                
+      31 +            return                                             
+      32 +        }                                                      
+      33 +        if !trimmedEmail.contains("@") || !trimmedEmail.contain
+         +s(".") {                                                       
+      34 +            errorMessage = "Please enter a valid email address.
+         +"                                                              
+      35 +            showErrorAnimated()                                
+      36 +            return                                             
+      37 +        }                                                      
+      38 +        if trimmedEmail == validEmail && password == validPassw
+         +ord {                                                          
+      39              showError = false
+      40              completion()
+      41          } else {
+      42              errorMessage = "Incorrect email or password. Please
+           try again."
+      21 -            withAnimation(.spring(response: 0.3, dampingFractio
+         -n: 0.6)) {                                                     
+      22 -                showError = true                               
+      23 -            }                                                  
+      43 +            showErrorAnimated()                                
+      44          }
+      45      }
+      46 +                                                               
+      47 +    private func showErrorAnimated() {                         
+      48 +        withAnimation(.spring(response: 0.3, dampingFraction: 0
+         +.6)) {                                                         
+      49 +            showError = true                                   
+      50 +        }                                                      
+      51 +    }                                                          
+      52  }
+
+⏺ Update(NurseryConnect/ViewModels/DiaryViewModel.swift)
+  ⎿  Added 27 lines, removed 3 lines
+      41      // MARK: - Validation
+      42  
+      43      func validate(child: Child) -> Bool {
+      44 -        if selectedEntryType == .meal && !child.allergens.isEmp
+         -ty && !allergenAcknowledged {                                  
+      45 -            validationError = "Please acknowledge allergen chec
+         -k before saving."                                              
+      46 -            return false                                       
+      44 +        switch selectedEntryType {                             
+      45 +        case .activity:                                        
+      46 +            if activityName.trimmingCharacters(in: .whitespaces
+         +).isEmpty {                                                    
+      47 +                validationError = "Please enter an activity nam
+         +e."                                                            
+      48 +                return false                                   
+      49 +            }                                                  
+      50 +        case .meal:                                            
+      51 +            if foodsOffered.trimmingCharacters(in: .whitespaces
+         +).isEmpty {                                                    
+      52 +                validationError = "Please describe the foods of
+         +fered."                                                        
+      53 +                return false                                   
+      54 +            }                                                  
+      55 +            if !child.allergens.isEmpty && !allergenAcknowledge
+         +d {                                                            
+      56 +                validationError = "Please acknowledge the aller
+         +gen check before saving."                                      
+      57 +                return false                                   
+      58 +            }                                                  
+      59 +        case .nap:                                             
+      60 +            if napEndTime <= napStartTime {                    
+      61 +                validationError = "End time must be after start
+         + time."                                                        
+      62 +                return false                                   
+      63 +            }                                                  
+      64 +        case .nappy:                                           
+      65 +            if nappyConcerns && concernsNotes.trimmingCharacter
+         +s(in: .whitespaces).isEmpty {                                  
+      66 +                validationError = "Please describe the concern.
+         +"                                                              
+      67 +                return false                                   
+      68 +            }                                                  
+      69 +        case .mood, .arrival, .departure:                      
+      70 +            break                                              
+      71          }
+      72          validationError = nil
+      73          return true
+
+⏺ Update(NurseryConnect/ViewModels/IncidentViewModel.swift)
+  ⎿  Added 19 lines, removed 4 lines
+      33      // MARK: - Section Completion
+      34  
+      35      var section0Complete: Bool {
+      36 -        selectedChildId != nil && !location.isEmpty && !inciden
+         -tDescription.isEmpty                                           
+      36 +        selectedChildId != nil                                 
+      37 +            && !location.trimmingCharacters(in: .whitespaces).i
+         +sEmpty                                                         
+      38 +            && !incidentDescription.trimmingCharacters(in: .whi
+         +tespaces).isEmpty                                              
+      39 +            && !immediateAction.trimmingCharacters(in: .whitesp
+         +aces).isEmpty                                                  
+      40      }
+      41  
+      42      var section1Complete: Bool {
+     ...
+      50      // MARK: - Submit
+      51  
+      52      func submitReport(keyworkerId: UUID, context: ModelContext)
+           -> Bool {
+      50 -        guard section0Complete else {                          
+      51 -            validationError = "Please select a child, enter a l
+         -ocation, and describe the incident."                           
+      53 +        if selectedChildId == nil {                            
+      54 +            validationError = "Please select a child."         
+      55              return false
+      56          }
+      54 -        guard confirmAccurate else {                           
+      57 +        if location.trimmingCharacters(in: .whitespaces).isEmpt
+         +y {                                                            
+      58 +            validationError = "Please enter the incident locati
+         +on."                                                           
+      59 +            return false                                       
+      60 +        }                                                      
+      61 +        if incidentDescription.trimmingCharacters(in: .whitespa
+         +ces).isEmpty {                                                 
+      62 +            validationError = "Please describe what happened." 
+      63 +            return false                                       
+      64 +        }                                                      
+      65 +        if immediateAction.trimmingCharacters(in: .whitespaces)
+         +.isEmpty {                                                     
+      66 +            validationError = "Please describe the immediate ac
+         +tion taken."                                                   
+      67 +            return false                                       
+      68 +        }                                                      
+      69 +        if !confirmAccurate {                                  
+      70              validationError = "Please confirm the report is acc
+          urate before submitting."
+      71              return false
+      72          }
+  ⎿  Found 7 new diagnostic issues in 1 file (ctrl+o to expand)
+
+⏺ All SourceKit false positives. Now also clear the validation error when the
+  user dismisses the error in AuthViewModel:
+
+⏺ Update(NurseryConnect/ViewModels/AuthViewModel.swift)
+  ⎿  Added 7 lines, removed 1 line
+       5  @Observable
+       6  final class AuthViewModel {
+       7      var email: String = "keyworker@littlestars.co.uk"
+       8 -    var password: String = "Stars2024!"                        
+       8 +    var password: String = "Stars2024!" {                      
+       9 +        didSet { if showError { clearError() } }               
+      10 +    }                                                          
+      11      var errorMessage: String = ""
+      12      var showError: Bool = false
+      13  
+      14 +    func clearError() {                                        
+      15 +        withAnimation(.easeOut(duration: 0.2)) { showError = fa
+         +lse }                                                          
+      16 +    }                                                          
+      17 +                                                               
+      18      private let validEmail    = "keyworker@littlestars.co.uk"
+      19      private let validPassword = "Stars2024!"
+      20  
+  ⎿  Found 1 new diagnostic issue in 1 file (ctrl+o to expand)
+
+⏺ Now hook the clearError into the email field too in LoginView, so the red
+  banner disappears when the user starts typing:
+
+⏺ Update(NurseryConnect/Views/Auth/LoginView.swift)
+  ⎿  Added 6 lines, removed 2 lines
+      63                          // Email field
+      64                          fieldRow(
+      65                              icon: "envelope",
+      66 -                            isFocused: focusedField == .email  
+      66 +                            isFocused: focusedField == .email, 
+      67 +                            hasError: viewModel.showError      
+      68                          ) {
+      69                              TextField("Email address", text: $v
+          iewModel.email)
+      70                                  .keyboardType(.emailAddress)
+      71                                  .autocorrectionDisabled()
+      72                                  .textInputAutocapitalization(.n
+          ever)
+      73                                  .focused($focusedField, equals:
+           .email)
+      74 +                                .onChange(of: viewModel.email) 
+         +{ _, _ in viewModel.clearError() }                             
+      75                          }
+      76  
+      77                          // Password field
+      78                          fieldRow(
+      79                              icon: "lock",
+      78 -                            isFocused: focusedField == .passwor
+         -d                                                              
+      80 +                            isFocused: focusedField == .passwor
+         +d,                                                             
+      81 +                            hasError: viewModel.showError      
+      82                          ) {
+      83                              SecureField("Password", text: $view
+          Model.password)
+      84                                  .focused($focusedField, equals:
+           .password)
+      85 +                                .onChange(of: viewModel.passwor
+         +d) { _, _ in viewModel.clearError() }                          
+      86                          }
+      87  
+      88                          // Sign In button
+
+⏺ Update(NurseryConnect/Views/Auth/LoginView.swift)
+  ⎿  Added 8 lines, removed 3 lines
+      119      }
+      120  
+      121      @ViewBuilder
+      122 -    private func fieldRow<Content: View>(icon: String, isFocus
+          -ed: Bool, @ViewBuilder content: () -> Content) -> some View { 
+      122 +    private func fieldRow<Content: View>(icon: String, isFocus
+          +ed: Bool, hasError: Bool = false, @ViewBuilder content: () -> 
+          +Content) -> some View {                                       
+      123          HStack(spacing: 10) {
+      124              Image(systemName: icon)
+      125 -                .foregroundStyle(isFocused ? Color.brandPurple
+          - : Color.gray.opacity(0.6))                                   
+      125 +                .foregroundStyle(hasError ? Color.red : isFocu
+          +sed ? Color.brandPurple : Color.gray.opacity(0.6))            
+      126                  .frame(width: 18)
+      127                  .animation(.easeInOut(duration: 0.2), value: i
+           sFocused)
+      128 +                .animation(.easeInOut(duration: 0.2), value: h
+          +asError)                                                      
+      129              content()
+      130          }
+      131          .padding(14)
+     ...
+      133          .clipShape(RoundedRectangle(cornerRadius: 12))
+      134          .overlay(
+      135              RoundedRectangle(cornerRadius: 12)
+      135 -                .stroke(isFocused ? Color.brandPurple : Color.
+          -gray.opacity(0.15), lineWidth: isFocused ? 2 : 1)             
+      136 +                .stroke(                                      
+      137 +                    hasError ? Color.red.opacity(0.6) : isFocu
+          +sed ? Color.brandPurple : Color.gray.opacity(0.15),           
+      138 +                    lineWidth: (hasError || isFocused) ? 2 : 1
+      139 +                )                                             
+      140                  .animation(.easeInOut(duration: 0.2), value: i
+           sFocused)
+      141 +                .animation(.easeInOut(duration: 0.2), value: h
+          +asError)                                                      
+      142          )
+      143      }
+      144  }
+  ⎿  Found 2 new diagnostic issues in 1 file (ctrl+o to expand)
+
+⏺ All false positives. Here's a complete summary of all validation added:
+
+  ---
+  AuthViewModel — Login form
+
+  ┌──────────────────────────────┬──────────────────────────────────────────┐
+  │          Condition           │                  Error                   │
+  ├──────────────────────────────┼──────────────────────────────────────────┤
+  │ Both fields empty            │ "Please enter your email and password."  │
+  ├──────────────────────────────┼──────────────────────────────────────────┤
+  │ Email empty                  │ "Please enter your email address."       │
+  ├──────────────────────────────┼──────────────────────────────────────────┤
+  │ Password empty               │ "Please enter your password."            │
+  ├──────────────────────────────┼──────────────────────────────────────────┤
+  │ Invalid email format (no @   │ "Please enter a valid email address."    │
+  │ or .)                        │                                          │
+  ├──────────────────────────────┼──────────────────────────────────────────┤
+  │ Wrong credentials            │ "Incorrect email or password. Please try │
+  │                              │  again."                                 │
+  └──────────────────────────────┴──────────────────────────────────────────┘
+
+  - Error banner auto-clears when the user starts typing in either field
+  - Fields get a red border + red icon when error is active
+
+  DiaryViewModel — Diary log card
+
+  ┌──────────────────┬───────────────────────┬──────────────────────────────┐
+  │    Entry type    │       Condition       │            Error             │
+  ├──────────────────┼───────────────────────┼──────────────────────────────┤
+  │ Activity         │ Activity name empty   │ "Please enter an activity    │
+  │                  │                       │ name."                       │
+  ├──────────────────┼───────────────────────┼──────────────────────────────┤
+  │ Meal             │ Foods offered empty   │ "Please describe the foods   │
+  │                  │                       │ offered."                    │
+  ├──────────────────┼───────────────────────┼──────────────────────────────┤
+  │                  │ Allergens present but │ "Please acknowledge the      │
+  │ Meal             │  toggle unchecked     │ allergen check before        │
+  │                  │                       │ saving."                     │
+  ├──────────────────┼───────────────────────┼──────────────────────────────┤
+  │ Nap              │ End time ≤ start time │ "End time must be after      │
+  │                  │                       │ start time."                 │
+  ├──────────────────┼───────────────────────┼──────────────────────────────┤
+  │ Nappy            │ Concerns toggle on    │ "Please describe the         │
+  │                  │ but notes empty       │ concern."                    │
+  ├──────────────────┼───────────────────────┼──────────────────────────────┤
+  │ Mood / Arrival / │ Always valid          │ —                            │
+  │  Departure       │                       │                              │
+  └──────────────────┴───────────────────────┴──────────────────────────────┘
+
+  IncidentViewModel — Incident form
+
+  ┌──────────────────────┬──────────────────────────────────────────────────┐
+  │      Condition       │                      Error                       │
+  ├──────────────────────┼──────────────────────────────────────────────────┤
+  │ No child selected    │ "Please select a child."                         │
+  ├──────────────────────┼──────────────────────────────────────────────────┤
+  │ Location empty       │ "Please enter the incident location."            │
+  ├──────────────────────┼──────────────────────────────────────────────────┤
+  │ Description empty    │ "Please describe what happened."                 │
+  ├──────────────────────┼──────────────────────────────────────────────────┤
+  │ Immediate action     │ "Please describe the immediate action taken."    │
+  │ empty                │                                                  │
+  ├──────────────────────┼──────────────────────────────────────────────────┤
+  │ Confirmation         │ "Please confirm the report is accurate before    │
+  │ unchecked            │ submitting."                                     │
+  └──────────────────────┴──────────────────────────────────────────────────┘
+
+  - Section 0 progress dot now also requires immediateAction to be filled
+
+✻ Brewed for 1m 13s

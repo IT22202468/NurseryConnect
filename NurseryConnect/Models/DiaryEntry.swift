@@ -1,65 +1,91 @@
-
-//  DiaryEntry.swift
-//  NurseryConnect
-
 import Foundation
 import SwiftData
 
 @Model
 final class DiaryEntry {
     var id: UUID
-    var timestamp: Date
+    private(set) var timestamp: Date
+    var childId: UUID
+    var keyworkerId: UUID
     var entryType: EntryType
-    var title: String
     var notes: String
-    var mood: Mood?
-    var mealPortionConsumed: PortionSize?
-    var sleepStartTime: Date?
-    var sleepEndTime: Date?
-    var sleepPosition: SleepPosition?
-    var nappyType: NappyType?
-    var photoData: Data?
-    var eyfsArea: EYFSArea?
 
-    var child: Child?
+    // Activity fields
+    var activityName: String?
+    var eyfsArea: EYFSArea?
+    var durationMinutes: Int?
+
+    // Meal fields
+    var mealType: String?
+    var foodsOffered: String?
+    var consumptionLevel: ConsumptionLevel?
+    var fluidVolumeMl: Int?
+    var fluidType: String?
+    var allergenAcknowledged: Bool?
+
+    // Nap fields
+    var napStartTime: Date?
+    var napEndTime: Date?
+    var sleepPosition: SleepPosition?
+
+    // Nappy fields
+    var nappyType: NappyType?
+    var nappyConcerns: Bool?
+
+    // Mood field
+    var moodRating: Int?
 
     init(
         id: UUID = UUID(),
-        timestamp: Date = .now,
+        childId: UUID,
+        keyworkerId: UUID,
         entryType: EntryType,
-        title: String,
         notes: String = "",
-        mood: Mood? = nil,
-        mealPortionConsumed: PortionSize? = nil,
-        sleepStartTime: Date? = nil,
-        sleepEndTime: Date? = nil,
-        sleepPosition: SleepPosition? = nil,
-        nappyType: NappyType? = nil,
-        photoData: Data? = nil,
-        eyfsArea: EYFSArea? = nil,
-        child: Child? = nil
+        _timestamp: Date = .now
     ) {
         self.id = id
-        self.timestamp = timestamp
+        self.timestamp = _timestamp
+        self.childId = childId
+        self.keyworkerId = keyworkerId
         self.entryType = entryType
-        self.title = title
         self.notes = notes
-        self.mood = mood
-        self.mealPortionConsumed = mealPortionConsumed
-        self.sleepStartTime = sleepStartTime
-        self.sleepEndTime = sleepEndTime
-        self.sleepPosition = sleepPosition
-        self.nappyType = nappyType
-        self.photoData = photoData
-        self.eyfsArea = eyfsArea
-        self.child = child
     }
 
     // MARK: - Computed Properties
 
-    /// Duration in minutes between sleepStartTime and sleepEndTime, if both are set.
-    var sleepDurationMinutes: Int? {
-        guard let start = sleepStartTime, let end = sleepEndTime else { return nil }
+    var summaryText: String {
+        switch entryType {
+        case .activity:
+            return activityName.map { "Activity: \($0)" } ?? "Activity"
+        case .meal:
+            let food = foodsOffered ?? "not recorded"
+            let type = mealType ?? "Meal"
+            return "\(type) — \(food)"
+        case .nap:
+            let fmt = DateFormatter()
+            fmt.dateFormat = "HH:mm"
+            if let start = napStartTime, let end = napEndTime {
+                return "Nap \(fmt.string(from: start))–\(fmt.string(from: end))"
+            }
+            return "Nap"
+        case .nappy:
+            return "Nappy change" + (nappyType.map { " — \($0.displayName)" } ?? "")
+        case .mood:
+            switch moodRating {
+            case 1: return "Mood: Happy 😊"
+            case 2: return "Mood: Unsettled 😕"
+            case 3: return "Mood: Poorly 🤒"
+            default: return "Mood check"
+            }
+        case .arrival:
+            return "Arrived"
+        case .departure:
+            return "Departed"
+        }
+    }
+
+    var napDurationMinutes: Int? {
+        guard let start = napStartTime, let end = napEndTime else { return nil }
         return Int(end.timeIntervalSince(start) / 60)
     }
 }

@@ -1,7 +1,3 @@
-
-//  Child.swift
-//  NurseryConnect
-
 import Foundation
 import SwiftData
 
@@ -12,20 +8,12 @@ final class Child {
     var preferredName: String
     var dateOfBirth: Date
     var roomName: String
-    var profileImageData: Data?
-    var allergies: [String]
-    var dietaryRequirements: String
+    var keyworkerUUID: UUID
+    var photoConsent: Bool
+    var allergens: [String]
+    var dietaryRequirements: [String]
     var medicalNotes: String
-    var photographyConsent: Bool
-    var parentName: String
-    var parentContact: String
-    var emergencyContact: String
-
-    @Relationship(deleteRule: .cascade, inverse: \DiaryEntry.child)
-    var diaryEntries: [DiaryEntry] = []
-
-    @Relationship(deleteRule: .cascade, inverse: \IncidentReport.child)
-    var incidents: [IncidentReport] = []
+    var contactsData: Data
 
     init(
         id: UUID = UUID(),
@@ -33,48 +21,42 @@ final class Child {
         preferredName: String = "",
         dateOfBirth: Date,
         roomName: String,
-        profileImageData: Data? = nil,
-        allergies: [String] = [],
-        dietaryRequirements: String = "",
+        keyworkerUUID: UUID,
+        photoConsent: Bool = true,
+        allergens: [String] = [],
+        dietaryRequirements: [String] = [],
         medicalNotes: String = "",
-        photographyConsent: Bool = false,
-        parentName: String,
-        parentContact: String,
-        emergencyContact: String
+        contacts: [ChildContact] = []
     ) {
         self.id = id
         self.fullName = fullName
         self.preferredName = preferredName.isEmpty ? fullName : preferredName
         self.dateOfBirth = dateOfBirth
         self.roomName = roomName
-        self.profileImageData = profileImageData
-        self.allergies = allergies
+        self.keyworkerUUID = keyworkerUUID
+        self.photoConsent = photoConsent
+        self.allergens = allergens
         self.dietaryRequirements = dietaryRequirements
         self.medicalNotes = medicalNotes
-        self.photographyConsent = photographyConsent
-        self.parentName = parentName
-        self.parentContact = parentContact
-        self.emergencyContact = emergencyContact
+        self.contactsData = (try? JSONEncoder().encode(contacts)) ?? Data()
     }
 
     // MARK: - Computed Properties
 
-    var age: String {
-        let calendar = Calendar.current
-        let now = Date.now
-        let components = calendar.dateComponents([.year, .month], from: dateOfBirth, to: now)
-
-        let years = components.year ?? 0
-        let months = components.month ?? 0
-
-        if years > 0 {
-            return months > 0 ? "\(years)y \(months)m" : "\(years) year\(years == 1 ? "" : "s")"
-        } else {
-            return "\(months) month\(months == 1 ? "" : "s")"
-        }
+    var contacts: [ChildContact] {
+        get { (try? JSONDecoder().decode([ChildContact].self, from: contactsData)) ?? [] }
+        set { contactsData = (try? JSONEncoder().encode(newValue)) ?? Data() }
     }
 
-    var hasActiveAllergens: Bool {
-        !allergies.isEmpty
+    var initials: String {
+        fullName
+            .split(separator: " ")
+            .compactMap { $0.first.map { String($0) } }
+            .joined()
+            .uppercased()
+    }
+
+    var ageInYears: Int {
+        Calendar.current.dateComponents([.year], from: dateOfBirth, to: .now).year ?? 0
     }
 }

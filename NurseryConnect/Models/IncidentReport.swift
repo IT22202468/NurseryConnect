@@ -1,7 +1,3 @@
-
-//  IncidentReport.swift
-//  NurseryConnect
-
 import Foundation
 import SwiftData
 
@@ -9,50 +5,44 @@ import SwiftData
 final class IncidentReport {
     var id: UUID
     private(set) var timestamp: Date
+    var childId: UUID
+    var childName: String
+    var keyworkerId: UUID
+    var location: String
     var category: IncidentCategory
-    var locationDescription: String
-    var descriptionText: String
-    var immediateActionTaken: String
+    var incidentDescription: String
+    var immediateAction: String
     var witnesses: String
-    var status: IncidentStatus
-    var photoEvidenceData: Data?
-    var severityLevel: SeverityLevel
-
-    @Relationship(deleteRule: .cascade, inverse: \BodyMapMarker.incident)
-    var bodyMapMarkers: [BodyMapMarker] = []
-
-    var child: Child?
+    var bodyMapData: Data
+    var status: String
+    var sosActivated: Bool
 
     init(
         id: UUID = UUID(),
-        category: IncidentCategory,
-        locationDescription: String,
-        descriptionText: String,
-        immediateActionTaken: String = "",
+        childId: UUID,
+        childName: String,
+        keyworkerId: UUID,
+        location: String = "",
+        category: IncidentCategory = .accidentMinor,
+        incidentDescription: String = "",
+        immediateAction: String = "",
         witnesses: String = "",
-        status: IncidentStatus = .pendingReview,
-        photoEvidenceData: Data? = nil,
-        severityLevel: SeverityLevel = .minor,
-        child: Child? = nil
+        bodyMapData: Data = Data(),
+        status: String = "draft",
+        sosActivated: Bool = false
     ) {
         self.id = id
         self.timestamp = .now
+        self.childId = childId
+        self.childName = childName
+        self.keyworkerId = keyworkerId
+        self.location = location
         self.category = category
-        self.locationDescription = locationDescription
-        self.descriptionText = descriptionText
-        self.immediateActionTaken = immediateActionTaken
+        self.incidentDescription = incidentDescription
+        self.immediateAction = immediateAction
         self.witnesses = witnesses
+        self.bodyMapData = bodyMapData
         self.status = status
-        self.photoEvidenceData = photoEvidenceData
-        self.severityLevel = severityLevel
-        self.child = child
-    }
-
-    // MARK: - Computed Properties
-
-    /// True when the incident has been in `pendingReview` for more than 2 hours.
-    var isOverdue: Bool {
-        guard status == .pendingReview else { return false }
-        return Date.now.timeIntervalSince(timestamp) > 2 * 3600
+        self.sosActivated = sosActivated
     }
 }
