@@ -56,11 +56,13 @@ struct ChildListView: View {
         VStack(alignment: .leading, spacing: 16) {
             // Greeting
             HStack(spacing: 8) {
-                Image(systemName: "sun.max.fill")
-                    .foregroundStyle(.orange)
+                
                 Text("Good morning, Sarah")
                     .font(.appTitle)
                     .foregroundStyle(.black)
+                
+                Image(systemName: "sun.max.fill")
+                    .foregroundStyle(.orange)
             }
             .padding(.top, 8)
             .slideUpOnAppear(delay: 0)

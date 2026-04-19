@@ -13,20 +13,21 @@ struct SplashScreenView: View {
             Color.brandYellow.ignoresSafeArea()
 
             VStack(spacing: 8) {
-                Image(systemName: "leaf.circle.fill")
+//                Image(systemName: "leaf.circle.fill")
+                Image("Applogo")
                     .resizable()
                     .scaledToFit()
                     .frame(width: 180, height: 180)
                     .foregroundStyle(Color.brandPurple)
                     .scaleEffect(logoScale)
 
-                Text("Nursery")
-                    .font(.system(size: 32, weight: .bold, design: .rounded))
-                    .foregroundStyle(Color.brandPurple)
-
-                Text("Connect")
-                    .font(.system(size: 32, weight: .bold, design: .rounded))
-                    .foregroundStyle(Color.brandPink)
+//                Text("Nursery")
+//                    .font(.system(size: 32, weight: .bold, design: .rounded))
+//                    .foregroundStyle(Color.brandPurple)
+//
+//                Text("Connect")
+//                    .font(.system(size: 32, weight: .bold, design: .rounded))
+//                    .foregroundStyle(Color.brandPink)
             }
             .scaleEffect(scale)
             .opacity(opacity)

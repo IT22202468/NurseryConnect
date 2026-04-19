@@ -303,12 +303,7 @@ private struct ContactsSheet: View {
 
             VStack(spacing: 0) {
                 if !contact.phone.isEmpty {
-                    contactRow(
-                        icon: "phone.fill",
-                        color: .green,
-                        value: contact.phone,
-                        action: { openPhone(contact.phone) }
-                    )
+                    PhoneRowView(phone: contact.phone) { openPhone(contact.phone) }
                 }
                 if !contact.email.isEmpty {
                     contactRow(
@@ -343,6 +338,68 @@ private struct ContactsSheet: View {
             .padding(.vertical, 12)
         }
         .pressEffect()
+    }
+
+    // MARK: - Animated Phone Row
+
+    private struct PhoneRowView: View {
+        let phone: String
+        let onCall: () -> Void
+
+        @State private var isCalling = false
+
+        var body: some View {
+            Button {
+                guard !isCalling else { return }
+                withAnimation(.spring(response: 0.25, dampingFraction: 0.4)) {
+                    isCalling = true
+                }
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.7) {
+                    onCall()
+                    withAnimation(.easeOut(duration: 0.3)) {
+                        isCalling = false
+                    }
+                }
+            } label: {
+                HStack(spacing: 12) {
+                    ZStack {
+                        Circle()
+                            .fill(isCalling ? Color.green.opacity(0.15) : Color.clear)
+                            .frame(width: 28, height: 28)
+                        Image(systemName: isCalling ? "phone.arrow.up.right.fill" : "phone.fill")
+                            .font(.system(size: 14, weight: .semibold))
+                            .foregroundStyle(.green)
+                    }
+                    .scaleEffect(isCalling ? 1.35 : 1.0)
+                    .rotationEffect(.degrees(isCalling ? -18 : 0))
+                    .animation(.spring(response: 0.25, dampingFraction: 0.4), value: isCalling)
+
+                    Text(phone)
+                        .font(.bodyText)
+                        .foregroundStyle(isCalling ? Color.green : .black)
+                        .animation(.easeInOut(duration: 0.2), value: isCalling)
+
+                    Spacer()
+
+                    if isCalling {
+                        Text("Calling…")
+                            .font(.captionText)
+                            .foregroundStyle(.green)
+                            .transition(.opacity.combined(with: .move(edge: .trailing)))
+                    } else {
+                        Image(systemName: "chevron.right")
+                            .font(.system(size: 11, weight: .semibold))
+                            .foregroundStyle(.gray.opacity(0.4))
+                            .transition(.opacity)
+                    }
+                }
+                .padding(.horizontal, 16)
+                .padding(.vertical, 12)
+                .background(isCalling ? Color.green.opacity(0.05) : Color.clear)
+                .animation(.easeInOut(duration: 0.2), value: isCalling)
+            }
+            .pressEffect()
+        }
     }
 
     private func openPhone(_ number: String) {

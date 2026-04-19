@@ -18,15 +18,21 @@ struct LoginView: View {
                 VStack(spacing: 28) {
                     // Logo
                     VStack(spacing: 6) {
-                        Image(systemName: "leaf.circle.fill")
+//                        Image(systemName: "leaf.circle.fill")
+//                            .resizable()
+//                            .scaledToFit()
+//                            .frame(width: 80, height: 80)
+//                            .foregroundStyle(Color.brandPurple)
+                        
+                        Image("Applogo")
                             .resizable()
                             .scaledToFit()
                             .frame(width: 80, height: 80)
                             .foregroundStyle(Color.brandPurple)
 
-                        Text("NurseryConnect")
-                            .font(.system(.title3, design: .rounded).weight(.bold))
-                            .foregroundStyle(Color.brandPurple)
+//                        Text("NurseryConnect")
+//                            .font(.system(.title3, design: .rounded).weight(.bold))
+//                            .foregroundStyle(Color.brandPurple)
                     }
                     .padding(.top, 56)
                     .opacity(logoAppeared ? 1 : 0)
